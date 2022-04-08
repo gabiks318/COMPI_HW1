@@ -1,6 +1,9 @@
 #ifndef TOKENS_HPP_
 #define TOKENS_HPP_
 #include <cstdlib>
+
+#define STRING_SIZE 1024
+
   enum tokentype
   {
     VOID = 1,
@@ -32,10 +35,16 @@
     ID = 27,
     NUM = 28,
     STRING = 29,
-	AUTO=30
+    ERROR=30,
+    UNCLOSED_STRING=31,
+    INVALID_ESCAPE_SEQUENCE=32,
+    INVALID_HEX=33,
+	AUTO=34
   };
   extern int yylineno;
   extern char* yytext;
   extern int yyleng;
   extern int yylex();
+  extern char *string_text[STRING_SIZE];
+
 #endif /* TOKENS_HPP_ */
