@@ -10,9 +10,9 @@
 digit            ([0-9])
 letter           ([a-zA-Z])
 letterdigit      ([a-zA-Z0-9])
-string           ([ !#-\[\]-~])
+string           ([ !#-\[\]-~	])
 escape           ([\\ntr\"0])
-hex              (\\x[0-7][0-9A-Fa-f])
+hex              (x[0-7][0-9A-Fa-f])
 whitespace       ([\t\n\r ])
 
 %%
@@ -45,9 +45,10 @@ continue                                                                        
 \/\/[^\n\r]*                                                                        return COMMENT;
 {letter}{letterdigit}*                                                              return ID;
 ([1-9]+{digit}*)|0                                                                  return NUM;
-\"({string}|\\{escape}|{hex})*\"                                                    return STRING;
-\"({string}|(\\{escape})|{hex})*                                                    return UNCLOSED_STRING;
-\"({string}|\\{escape}|{hex})*\\[^\\ntr\"0]                                         return INVALID_ESCAPE_SEQUENCE;
-\"({string}|\\{escape}|{hex})*\\x([^0-7][0-9A-Fa-f]|[0-7][^0-9A-Fa-f]|[^0-7][^0-9A-Fa-f]|[^0-9A-Fa-f]) return INVALID_HEX;
+([0]+{digit}*)|0												return ERROR;
+\"({string}|\\{escape}|\\{hex})*\"                                                    return STRING;
+\"({string}|\\{escape}|\\{hex})*                                                    return UNCLOSED_STRING;
+\"({string}|\\{escape}|\\{hex})*\\[^\\ntr\"0]                                         return INVALID_ESCAPE_SEQUENCE;
+\"({string}|\\{escape}|\\{hex})*\\x([^0-7][0-9A-Fa-f]|[0-7][^0-9A-Fa-f]|[^0-7][^0-9A-Fa-f]|[^0-9A-Fa-f]) return INVALID_HEX;
 {whitespace}                                                                        ;
 .                                                                                   return ERROR;
